@@ -1,0 +1,15 @@
+xxx:
+  rss: '站点rss 必填'
+  cookie: '站点cookie 必填'
+  user-agent: '浏览器 选填'
+  discount:
+    - free
+    - 2xfree
+    - 2x50%
+    - 2x
+    - 50%
+    - 30%
+  size:
+    min: 0
+    max: -1
+  download: 
