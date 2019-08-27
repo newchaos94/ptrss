@@ -18,6 +18,10 @@ import requests
 import yaml
 
 
+## 禁用ssl-warning
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 class RssDB():
     def __init__(self):
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'rss.db')
@@ -81,7 +85,7 @@ class Rss():
         self.config = dict(config)
         if not self.config.get('download'):
             self.config['download'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'torrents')
-        self.config.setdefault('userAgent', '')
+        self.config.setdefault('user-agent', '')
         self.config.setdefault('discount', None)
         self.config.setdefault('title', None)
         self.config.setdefault('size', {'min': 0, 'max': -1})
@@ -91,7 +95,7 @@ class Rss():
 
         self.headers = {
             'cookie': self.config['cookie'],
-            'user-agent': self.config['userAgent']
+            'user-agent': self.config['user-agent']
         }
 
     def _request(self, url):
@@ -121,7 +125,7 @@ class Rss():
                 return False
 
         # 获取文件大小 GB 两位小数
-        size = round(int(entry.links[1]['length']) / self.UNIT, 2)
+        size = round((entry.links[1]['length'] / self.UNIT), 2)
         print(size)
         max_ = self.config['size']['max']
         min_ = self.config['size']['min']
@@ -162,6 +166,8 @@ class Rss():
             else:
                 print('无优惠信息')
                 return False
+        
+        return True
 
 
     def download(self):
@@ -171,11 +177,11 @@ class Rss():
             time.sleep(random.randint(1,4))
             if self._check(e):
                 resp = self._request(e['links'][1]['href'])
-            #     if resp.status_code == 200 and resp.headers.get('Content-Disposition'):
-            #         with open(os.path.join(self.config['download'], e.id + '.torrent'), "wb") as f:
-            #             f.write(resp.content)
-            #     else:
-            #         print(resp.status_code, resp.text)
+                if resp.status_code == 200 and resp.headers.get('Content-Disposition'):
+                    with open(os.path.join(self.config['download'], e.id + '.torrent'), "wb") as f:
+                        f.write(resp.content)
+                else:
+                    print(resp.status_code, resp.text)
     
 
 if __name__ == '__main__':
