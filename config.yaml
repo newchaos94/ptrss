@@ -1,18 +1,17 @@
-xxx:
-  rss: '站点rss 必填'
-  cookie: '站点cookie 必填'
-  user-agent: '浏览器 选填'
-  discount:
+xxx: #站点区分
+  rss: '' #站点rss 必填
+  cookie: '' #站点cookie 必填
+  user-agent: '' #浏览器 选填
+  discount: #优惠信息 选填
     - free
     - 2xfree
     - 2x50%
     - 2x
     - 50%
     - 30%
-    - 选填
-  title:
-    - 选填
-  size:
-    min: 默认 0
-    max: 默认 -1(不限制)
-  download: '默认当前torrents目录'
+  title: #文件标题 选填
+    - 测试
+  size: #文件大小 选填
+    min: 0
+    max: -1
+  download: '' #默认当前目录下torrents内
