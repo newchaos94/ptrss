@@ -125,7 +125,7 @@ class Rss():
                 return False
 
         # 获取文件大小 GB 两位小数
-        size = round((entry.links[1]['length'] / self.UNIT), 2)
+        size = round((int(entry.links[1]['length']) / self.UNIT), 2)
         print(size)
         max_ = self.config['size']['max']
         min_ = self.config['size']['min']
