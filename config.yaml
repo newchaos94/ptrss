@@ -9,7 +9,10 @@ xxx:
     - 2x
     - 50%
     - 30%
+    - 选填
+  title:
+    - 选填
   size:
-    min: 0
-    max: -1
-  download: 
+    min: 默认 0
+    max: 默认 -1(不限制)
+  download: '默认当前torrents目录'
