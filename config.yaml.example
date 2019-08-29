@@ -1,0 +1,22 @@
+pt1:
+  rss: rss1
+  cookie: cookie1
+  download: download1
+pt2:
+  rss: rss2
+  cookie: cookie2
+  download: download2
+  user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36
+  discount:
+    - free
+    - 2xfree
+  title:
+    - 测试
+  size:
+    max: 20
+
+###### 说明
+# rss,cookie属于必填项
+# download属于选填项，默认当前目录下torrents内
+# discount,title,size属于选填项，作用是限制种子
+# 以上, pt1下载所有种子; pt2只下载free,2xfree 且标题中含有【测试】,体积小于20G的种子
