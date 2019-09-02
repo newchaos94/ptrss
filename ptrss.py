@@ -78,7 +78,11 @@ class Rss():
         'twoupfree': '2xfree',
         'thirtypercent': '30%',
         'halfdown': '50%',
-        'twouphalfdown': '2x50%'
+        'twouphalfdown': '2x50%',
+        ## chd
+        'Free': 'free',
+        '30%': '30%',
+        '50%': '50%',
     }
 
     def __init__(self, config):
@@ -101,7 +105,7 @@ class Rss():
     def _request(self, url):
         resp = requests.get(url, headers=self.headers, verify=False, allow_redirects=False, timeout=30)
         if resp.status_code == 302:
-            raise RuntimeError("网站无法登陆, 更新cookie~~")
+            raise RuntimeError("Can't login, Check your cookie")
         return resp
 
     def _check(self, entry):
@@ -121,7 +125,7 @@ class Rss():
                     flag = True
                     break
             if not flag:
-                print('标题不匹配')
+                print('Title does not match')
                 return False
 
         # 获取文件大小 GB 两位小数
@@ -131,11 +135,11 @@ class Rss():
         min_ = self.config['size']['min']
         if -1 == max_:
             if size < min_:
-                print('文件过小')
+                print('Size does not match')
                 return False
         else:
             if size < min_ or size > max_:
-                print('文件大小不匹配')
+                print('Size does not match')
                 return False
         
         # # //tr/text()
@@ -156,15 +160,18 @@ class Rss():
         if self.config['discount']:
             resp = self._request(entry.link)
             html = etree.HTML(resp.text)
-            result = html.xpath('//h1[@id="top"]/b/font/@class')
+            result = html.xpath('//*[@id="top"]/b/font/@class')
+            if not result:
+                result = html.xpath('//*[@id="top"]/img/@alt')
             print(result)
+            
             if result:
                 discount = self.DISCOUNT.get(result[0], None)
                 if discount not in self.config['discount']:
-                    print('优惠信息不匹配')
+                    print('Discount does not match')
                     return False
             else:
-                print('无优惠信息')
+                print('No discount')
                 return False
         
         return True
