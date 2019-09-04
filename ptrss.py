@@ -160,7 +160,7 @@ class Rss():
         if self.config['discount']:
             resp = self._request(entry.link)
             html = etree.HTML(resp.text)
-            result = html.xpath('//*[@id="top"]/b/font/@class')
+            result = html.xpath('//*[@id="top"]//font/@class')
             if not result:
                 result = html.xpath('//*[@id="top"]/img/@alt')
             print(result)
