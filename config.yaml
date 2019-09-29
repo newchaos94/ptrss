@@ -1,4 +1,5 @@
 xxx: #站点区分
+  enabled: 1 #1: 启用，0：停用，默认1 选填
   rss: '' #站点rss 必填
   cookie: '' #站点cookie 必填
   user-agent: '' #浏览器 选填

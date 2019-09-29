@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-__author__ = 'Tony Liu'
 
 '''
 rss
@@ -208,6 +205,8 @@ if __name__ == '__main__':
         
         for k, v in tasks.items():
             print('----------------{}----------------'.format(k))
+            if v.get('enabled', 1) != 1: # 不启用
+                continue
             if v.get('rss') is None or v.get('cookie') is None:
                 raise RuntimeError("任务[{}] 需要'rss', 'cookie'配置项".format(k))
             try:
