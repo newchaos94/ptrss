@@ -157,11 +157,27 @@ class Rss():
         if self.config['discount']:
             resp = self._request(entry.link)
             html = etree.HTML(resp.text)
-            result = html.xpath('//*[@id="top"]//font/@class')
-            if not result:
-                result = html.xpath('//*[@id="top"]/img/@alt')
-            print(result)
+            result = None
+            if 'totheglory' in entry.link:
+                ss = html.xpath('//*[@id="kt_d"]/img[@class="topic"]/@src')
+                for s in ss:
+                    # 'jinzhuan': 'jinzhuan', #禁转
+                    # 'hit_run': 'Hit and Run', #H&R
+                    if 'ico_30' in s:
+                        result = ['30%']
+                        break
+                    elif 'ico_50' in s:
+                        result = ['50%']
+                        break
+                    elif 'ico_free' in s:
+                        result = ['free']
+                        break
+            else:
+                result = html.xpath('//*[@id="top"]//font/@class')
+                if not result:
+                    result = html.xpath('//*[@id="top"]/img/@alt')
             
+            print(result)            
             if result:
                 discount = self.DISCOUNT.get(result[0], None)
                 if discount not in self.config['discount']:
@@ -169,7 +185,8 @@ class Rss():
                     return False
             else:
                 print('No discount')
-                return False
+                if self.config['discount']:
+                    return False
         
         return True
 
